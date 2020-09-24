@@ -28,7 +28,7 @@ class Message():
             return
 
         if "restart" in content:
-            self.command.restart()
+            self.command.restart(message)
         
         elif "updateGit" in content:
             self.command.updateFromGit()

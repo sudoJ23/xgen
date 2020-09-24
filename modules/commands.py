@@ -10,6 +10,6 @@ class Commands():
         python = sys.executable
         os.execl(python, python, * sys.argv)
 
-    def updateFromGit(self):
-        os.system("git pull")
+    def updateFromGit(self, message):
+        message.channel.send(os.system("git pull"))
         self.restart()
