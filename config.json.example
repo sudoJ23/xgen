@@ -2,6 +2,7 @@
     "bot": {
         "token": "your token",
         "prefix": ">",
-        "printMessage": "true"
+        "printMessage": "true",
+        "adminId": ["413201575910047744"]
     }
 }
