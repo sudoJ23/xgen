@@ -12,7 +12,7 @@ class Commands():
 
     async def updateFromGit(self, message):
         result = subprocess.check_output('git pull', shell=True)
-        if "Already" in str(result, "utf-8")):
+        if "Already" in str(result):
             await message.channel.send(str(result, "utf-8"))
             return
         else:
