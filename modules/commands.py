@@ -1,4 +1,4 @@
-import discord, json, codecs, os
+import discord, json, codecs, os, sys
 
 class Commands():
 
