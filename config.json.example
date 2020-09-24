@@ -2,6 +2,6 @@
     "bot": {
         "token": "your token",
         "prefix": ">",
-        "printMessage": false
+        "printMessage": "true"
     }
 }

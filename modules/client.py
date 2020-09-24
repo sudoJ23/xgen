@@ -11,7 +11,7 @@ class Client(discord.Client):
         print("Logged on as {0}".format(self.user))
 
     async def on_message(self, message):
-        if config['printMessage']:
+        if config['printMessage'] == "true":
             print('Message from {0.guild.name} sender {0.author} : {0.content}'.format(message))
 
         if message.author == client.user:
