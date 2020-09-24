@@ -3,6 +3,6 @@
         "token": "your token",
         "prefix": ">",
         "printMessage": "true",
-        "adminId": ["413201575910047744"]
+        "adminId": "413201575910047744"
     }
 }
