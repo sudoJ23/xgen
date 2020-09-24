@@ -12,7 +12,6 @@ class Commands():
 
     async def updateFromGit(self, message):
         result = subprocess.check_output('git pull', shell=True)
-        if result == "Already up to date.":
-            return
-        await message.channel.send(str(result, "utf-8"))
-        self.restart()
+        if result != "Already up to date.":
+            await message.channel.send(str(result, "utf-8"))
+            self.restart()
