@@ -34,6 +34,7 @@ class Message():
             self.command.updateFromGit()
 
         elif "add" in content:
+            print("\n")
             print(message)
             print(message.mentions)
             print(message.mentions[0])
