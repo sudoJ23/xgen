@@ -16,6 +16,8 @@ class Message():
     async def checkMessage(self, message):
         print("content : %s" % (message.content))
         print("clean content : %s" % (message.clean_content))
+        print("\n%s" % (message.author))
+        print("\n%s" % (message.author.id))
 
         if message.clean_content == "":
             return
@@ -23,7 +25,7 @@ class Message():
         self.prefix = message.clean_content[0]
         split = message.clean_content.split(" ")
         content = message.clean_content
-        self.author = message.author.id
+        author = message.author.id
 
         if self.prefix != self.Prefix:
             return
