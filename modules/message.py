@@ -11,10 +11,13 @@ class Message():
         self.command = Commands()
 
     def checkMessage(self, message):
-        # print("Checking message")
         print("content : %s" % (message.content))
         print("clean content : %s" % (message.clean_content))
-        # self.prefix = message.content[0]
+
+        if message.clean_content == "":
+            return
+
+        self.prefix = message.clean_content[0]
         # print(message.content)
         if self.prefix != self.Prefix:
             return
