@@ -13,8 +13,8 @@ class Message():
 
     def checkMessage(self, message):
         self.prefix = message.content[0]
-        if self.prefix != self.Prefix:
-            return
+        # if self.prefix != self.Prefix:
+        #     return
 
         if "restart" in message.content:
             self.command.restart()
