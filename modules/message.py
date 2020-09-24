@@ -24,3 +24,4 @@ class Message():
             command.updateGit()
 
         return
+    return
