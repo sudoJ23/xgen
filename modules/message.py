@@ -16,8 +16,8 @@ class Message():
     async def checkMessage(self, message):
         print("content : %s" % (message.content))
         print("clean content : %s" % (message.clean_content))
-        print("\n%s" % (message.author))
-        print("\n%s" % (message.author.id))
+        # print("\n%s" % (message.author))
+        # print("\n%s" % (message.author.id))
 
         if message.clean_content == "":
             return
@@ -25,17 +25,16 @@ class Message():
         self.prefix = message.clean_content[0]
         split = message.clean_content.split(" ")
         content = message.clean_content
-        author = message.author.id
 
         if self.prefix != self.Prefix:
             return
 
         if "restart" in content:
-            if self.author in config['bot']['adminId']:
+            if message.author.id in config['bot']['adminId']:
                 self.command.restart(message)
         
         elif "updateGit" in content:
-            if self.author in config['bot']['adminId']:
+            if message.author.id in config['bot']['adminId']:
                 await self.command.updateFromGit(message)
 
         elif "add" in content:
