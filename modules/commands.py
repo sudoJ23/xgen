@@ -11,6 +11,6 @@ class Commands():
         os.execl(python, python, * sys.argv)
 
     async def updateFromGit(self, message):
-        result = subprocess.check_output('git pull', shell=True, "utf-8")
-        await message.channel.send(str(result))
+        result = subprocess.check_output('git pull', shell=True)
+        await message.channel.send(str(result, "utf-8"))
         self.restart()
