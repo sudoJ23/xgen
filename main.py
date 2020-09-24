@@ -5,7 +5,7 @@ configOpen = codecs.open('config.json', 'r', 'utf-8')
 config = json.load(configOpen)
 
 class Client(discord.Client):
-    def __init__():
+    def __init__(self):
         msg = Message()
 
     async def on_ready(self):
