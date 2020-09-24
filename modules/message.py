@@ -11,11 +11,11 @@ class Message():
         self.command = Commands()
 
     def checkMessage(self, message):
-        print("Checking message")
-        # self.prefix = message.content[0]
+        # print("Checking message")
+        self.prefix = message.content[0]
         # print(message.content)
-        # if self.prefix != self.Prefix:
-        #     return
+        if self.prefix != self.Prefix:
+            return
 
         if "restart" in message.content:
             self.command.restart()
