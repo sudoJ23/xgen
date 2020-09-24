@@ -2,7 +2,10 @@ from .commands import Commands
 import discord, json, codecs
 
 configOpen = codecs.open('config.json', 'r', 'utf-8')
+usersOpen = codecs.open('users.json', 'r', 'utf-8')
+
 config = json.load(configOpen)
+users = json.load(usersOpen)
 
 class Message():
 
@@ -18,12 +21,18 @@ class Message():
             return
 
         self.prefix = message.clean_content[0]
-        # print(message.content)
+        split = message.clean_content.split(" ")
+        content = message.clean_content
+
         if self.prefix != self.Prefix:
             return
 
-        if "restart" in message.content:
+        if "restart" in content:
             self.command.restart()
         
-        elif "updateGit" in message.content:
+        elif "updateGit" in content:
             self.command.updateFromGit()
+
+        elif "add" in content:
+            print(message)
+            print(message.mentions)
