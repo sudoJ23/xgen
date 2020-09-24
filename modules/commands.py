@@ -1,4 +1,4 @@
-import discord, json, codecs, os, sys
+import discord, json, codecs, os, sys, subprocess
 
 class Commands():
 
@@ -11,5 +11,5 @@ class Commands():
         os.execl(python, python, * sys.argv)
 
     async def updateFromGit(self, message):
-        await message.channel.send(os.system("git pull"))
+        await message.channel.send(subprocess.check_output('git pull', shell=True))
         self.restart()
