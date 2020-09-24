@@ -12,4 +12,3 @@ class Commands():
         os.system("git pull")
         self.restart()
         return
-    return
