@@ -12,4 +12,4 @@ class Commands():
 
     def updateFromGit(self):
         os.system("git pull")
-        restart()
+        self.restart()
