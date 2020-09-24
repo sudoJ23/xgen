@@ -20,7 +20,6 @@ class Client(discord.Client):
             return
 
         self.msg.checkMessage(message)
-        return
 
 client = Client()
 client.run(config['bot']['token'])
