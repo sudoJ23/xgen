@@ -13,7 +13,7 @@ class Message():
         self.Prefix = config["bot"]["prefix"]
         self.command = Commands()
 
-    def checkMessage(self, message):
+    async def checkMessage(self, message):
         print("content : %s" % (message.content))
         print("clean content : %s" % (message.clean_content))
 
@@ -31,7 +31,7 @@ class Message():
             self.command.restart(message)
         
         elif "updateGit" in content:
-            self.command.updateFromGit(message)
+            await self.command.updateFromGit(message)
 
         elif "add" in content:
             print("\n")
