@@ -23,17 +23,17 @@ class Message():
         self.prefix = message.clean_content[0]
         split = message.clean_content.split(" ")
         content = message.clean_content
-        author = message.author.id
+        self.author = message.author.id
 
         if self.prefix != self.Prefix:
             return
 
         if "restart" in content:
-            if author in config['bot']['adminId']:
+            if self.author in config['bot']['adminId']:
                 self.command.restart(message)
         
         elif "updateGit" in content:
-            if author in config['bot']['adminId']:
+            if self.author in config['bot']['adminId']:
                 await self.command.updateFromGit(message)
 
         elif "add" in content:
