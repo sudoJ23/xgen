@@ -4,13 +4,7 @@ import discord, json, os, codecs, sys
 configOpen = codecs.open('config.json', 'r', 'utf-8')
 config = json.load(configOpen)
 
-# msg = Message()
-
 class Client(discord.Client):
-
-    def __init__(self):
-        msg = Message()
-        return
 
     async def on_ready(self):
         print("Logged on as {0}".format(self.user))
@@ -24,7 +18,7 @@ class Client(discord.Client):
         if message.author == client.user:
             return
 
-        self.msg.checkMessage(message)
+        Message.checkMessage(message)
         return
 
 client = Client()
