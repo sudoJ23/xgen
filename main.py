@@ -1,7 +1,7 @@
 import discord, json, os, codecs
 
 configOpen = codecs.open('config.json', 'r', 'utf-8')
-config = json.load(settingsOpen)
+config = json.load(configOpen)
 
 class Client(discord.Client):
     async def on_ready(self):
