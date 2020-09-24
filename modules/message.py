@@ -36,3 +36,4 @@ class Message():
         elif "add" in content:
             print(message)
             print(message.mentions)
+            print(message.mentions[0])
