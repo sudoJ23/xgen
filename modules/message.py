@@ -31,7 +31,7 @@ class Message():
             self.command.restart(message)
         
         elif "updateGit" in content:
-            self.command.updateFromGit()
+            self.command.updateFromGit(message)
 
         elif "add" in content:
             print("\n")
