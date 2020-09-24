@@ -41,4 +41,3 @@ class Message():
             print("\n%s %s" % (message.mentions[1].name, message.mentions[1].id))
 
         # elif "tes":
-        # a
