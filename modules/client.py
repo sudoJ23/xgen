@@ -1,7 +1,7 @@
 import discord, json, codecs, sys
 from .message import Message
 
-configOpen = codecs.open('../config.json', 'r', 'utf-8')
+configOpen = codecs.open('config.json', 'r', 'utf-8')
 config = json.load(configOpen)
 
 msg = Message()
