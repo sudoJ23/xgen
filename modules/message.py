@@ -4,6 +4,8 @@ import discord, json, codecs
 configOpen = codecs.open('config.json', 'r', 'utf-8')
 config = json.load(configOpen)
 
+command = Commands()
+
 class Message():
 
     def __init__(self):
@@ -16,9 +18,9 @@ class Message():
             return
 
         if "restart" in message.content:
-            Commands.restart()
+            command.restart()
         
         elif "updateGit" in message.content:
-            Commands.updateGit()
+            command.updateGit()
 
         return
