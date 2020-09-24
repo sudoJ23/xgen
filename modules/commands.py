@@ -11,10 +11,10 @@ class Commands():
         os.execl(python, python, * sys.argv)
 
     async def updateFromGit(self, message):
-        str(result, "utf-8")) = subprocess.check_output('git pull', shell=True)
-        if "Already" in result:
-            await message.channel.send(result)
+        result = subprocess.check_output('git pull', shell=True)
+        if "Already" in str(result, "utf-8")):
+            await message.channel.send(str(result, "utf-8"))
             return
         else:
-            await message.channel.send(result)
+            await message.channel.send(str(result, "utf-8"))
             self.restart()
