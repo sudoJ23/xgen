@@ -1,4 +1,7 @@
-import discord
+import discord, json, os, codecs
+
+configOpen = codecs.open('config.json', 'r', 'utf-8')
+config = json.load(settingsOpen)
 
 class Client(discord.Client):
     async def on_ready(self):
@@ -8,4 +11,4 @@ class Client(discord.Client):
         print('Message from {0.author}: {0.content}'.format(message))
 
 client = Client()
-client.run('NzQyMTcwOTk4MDE0NzM4NTAz.XzCOmg.Xh64t8uz1HyQ8VWFy3HtFHO5jHs')
+client.run(config['bot']['token'])
