@@ -10,6 +10,14 @@ class Client(discord.Client):
     async def on_message(self, message):
         print('Message from {0.author}: {0.content}'.format(message))
 
+        if message.author == client.user:
+            return
+
+        if message.content.startswith('>restart'):
+            restart()
+        elif message.content.startswith('>updateGit'):
+            updateFromGit()
+
 def restart():
     print("[ INFO ] RESTARTING BOT")
     python = sys.executable
