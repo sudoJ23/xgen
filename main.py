@@ -14,7 +14,6 @@ class Client(discord.Client):
     async def on_message(self, message):
         if config['bot']['printMessage'] == "true":
             print('Message from {0.guild.name} sender {0.author} : {0.content}'.format(message))
-            return
 
         if message.author == client.user:
             return
