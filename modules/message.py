@@ -8,6 +8,7 @@ class Message():
 
     def __init__(self):
         self.Prefix = config["bot"]["prefix"]
+        return
 
     def checkMessage(self, message):
         self.prefix = message.content[0]
@@ -19,3 +20,5 @@ class Message():
         
         elif "updateGit" in message.content:
             Commands.updateGit()
+
+        return
