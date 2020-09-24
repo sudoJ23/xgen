@@ -12,7 +12,8 @@ class Message():
 
     def checkMessage(self, message):
         print("Checking message")
-        self.prefix = message.content[0]
+        # self.prefix = message.content[0]
+        print(message)
         # if self.prefix != self.Prefix:
         #     return
 
