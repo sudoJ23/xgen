@@ -31,7 +31,7 @@ class Message():
 
         if "restart" in content:
             if str(message.author.id) in config['bot']['adminId']:
-                self.command.restart(message)
+                self.command.restart()
         
         elif "updateGit" in content:
             if str(message.author.id) in config['bot']['adminId']:
