@@ -1,5 +1,7 @@
 {
     "bot": {
-        "token": "your token"
+        "token": "your token",
+        "prefix": ">",
+        "printMessage": false
     }
 }
