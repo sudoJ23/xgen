@@ -13,7 +13,7 @@ class Message():
     def checkMessage(self, message):
         print("Checking message")
         # self.prefix = message.content[0]
-        print(message.content)
+        # print(message.content)
         # if self.prefix != self.Prefix:
         #     return
 
@@ -21,4 +21,4 @@ class Message():
             self.command.restart()
         
         elif "updateGit" in message.content:
-            self.command.updateGit()
+            self.command.updateFromGit()
