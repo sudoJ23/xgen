@@ -29,14 +29,12 @@ class Message():
             return
 
         if "restart" in content:
-            if author not in config['bot']['adminId']:
-                return
-            self.command.restart(message)
+            if author in config['bot']['adminId']:
+                self.command.restart(message)
         
         elif "updateGit" in content:
-            if author not in config['bot']['adminId']:
-                return
-            await self.command.updateFromGit(message)
+            if author in config['bot']['adminId']:
+                await self.command.updateFromGit(message)
 
         elif "add" in content:
             print("\n")
