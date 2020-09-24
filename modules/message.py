@@ -37,4 +37,5 @@ class Message():
             print("\n")
             print(message)
             print(message.mentions)
-            print(message.mentions[0])
+            print("\n%s %s" % (message.mentions[0].name, message.mentions[0].id))
+            print("\n%s %s" % (message.mentions[1].name, message.mentions[1].id))
