@@ -30,11 +30,11 @@ class Message():
             return
 
         if "restart" in content:
-            if message.author.id in config['bot']['adminId']:
+            if str(message.author.id) in config['bot']['adminId']:
                 self.command.restart(message)
         
         elif "updateGit" in content:
-            if message.author.id in config['bot']['adminId']:
+            if str(message.author.id) in config['bot']['adminId']:
                 await self.command.updateFromGit(message)
 
         elif "add" in content:
