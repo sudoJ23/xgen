@@ -39,3 +39,5 @@ class Message():
             print(message.mentions)
             print("\n%s %s" % (message.mentions[0].name, message.mentions[0].id))
             print("\n%s %s" % (message.mentions[1].name, message.mentions[1].id))
+
+        # elif "tes":
