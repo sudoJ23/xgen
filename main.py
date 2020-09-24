@@ -1,4 +1,4 @@
-import discord, json, os, codecs
+import discord, json, os, codecs, sys
 
 configOpen = codecs.open('config.json', 'r', 'utf-8')
 config = json.load(configOpen)
@@ -9,6 +9,15 @@ class Client(discord.Client):
 
     async def on_message(self, message):
         print('Message from {0.author}: {0.content}'.format(message))
+
+def restart():
+    print("[ INFO ] RESTARTING BOT")
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
+
+def updateFromGit():
+    os.system("git pull")
+    restart()
 
 client = Client()
 client.run(config['bot']['token'])
