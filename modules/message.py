@@ -9,7 +9,6 @@ class Message():
     def __init__(self):
         self.Prefix = config["bot"]["prefix"]
         command = Commands()
-        return
 
     def checkMessage(self, message):
         print("Checking message")
