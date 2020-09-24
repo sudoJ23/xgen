@@ -8,6 +8,7 @@ class Client(discord.Client):
 
     async def on_ready(self):
         print("Logged on as {0}".format(self.user))
+        self.msg = Message()
         return
 
     async def on_message(self, message):
@@ -18,7 +19,7 @@ class Client(discord.Client):
         if message.author == client.user:
             return
 
-        Message.checkMessage(message)
+        self.msg.checkMessage(message)
         return
 
 client = Client()
