@@ -49,6 +49,6 @@ class Message():
             await message.channel.send(say)
 
         elif "join" in content:
-            self.command.joinVoice(message)
+            await self.command.joinVoice(message)
 
         # elif "tes":
