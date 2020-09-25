@@ -20,6 +20,6 @@ class Commands():
             self.restart()
 
     def joinVoice(self, message):
-        if message.member.voice.channel:
-            print("connecting to channel %s" % (message.member.voice.channel))
-            message.member.voice.channel.connect()
+        if message.author.voice.channel:
+            print("connecting to channel %s" % (message.author.voice.channel))
+            message.author.voice.channel.connect()
