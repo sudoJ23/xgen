@@ -25,4 +25,4 @@ class Commands():
             await message.author.voice.channel.connect()
 
     async def disconnect(self, message):
-        await message.author.voice.channel.disconnect()
+        await message.author.voice.channel.leave()
