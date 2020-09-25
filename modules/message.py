@@ -45,6 +45,7 @@ class Message():
             print("\n%s %s" % (message.mentions[1].name, message.mentions[1].id))
 
         elif "say" in content:
+            say = content.replace(">", "")
             say = content.replace("say ", "")
             await message.channel.send(say)
 
