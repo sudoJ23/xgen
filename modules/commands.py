@@ -24,5 +24,5 @@ class Commands():
             print("connecting to channel %s" % (message.author.voice.channel))
             await message.author.voice.channel.connect()
 
-    async def disconnect(self, client):
+    async def disconnect(self, message):
         await message.author.voice.channel.disconnect()

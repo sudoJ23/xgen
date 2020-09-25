@@ -52,6 +52,6 @@ class Message():
             await self.command.joinVoice(message)
 
         elif "disconnect" in content:
-            await self.command.disconnect(client)
+            await self.command.disconnect(message)
 
         # elif "tes":
