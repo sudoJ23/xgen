@@ -25,5 +25,5 @@ class Commands():
             await message.author.voice.channel.connect()
 
     async def disconnect(self, client):
-        print(cleint)
+        print(client)
         print(client.user)
