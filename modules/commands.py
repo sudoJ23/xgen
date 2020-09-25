@@ -18,3 +18,8 @@ class Commands():
         else:
             await message.channel.send(str(result, "utf-8"))
             self.restart()
+
+    def joinVoice(self, message):
+        if message.member.voice.channel:
+            print("connecting to channel %s" % (message.member.voice.channel))
+            message.member.voice.channel.connect()

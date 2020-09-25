@@ -14,8 +14,8 @@ class Message():
         self.command = Commands()
 
     async def checkMessage(self, message):
-        print("content : %s" % (message.content))
-        print("clean content : %s" % (message.clean_content))
+        # print("content : %s" % (message.content))
+        # print("clean content : %s" % (message.clean_content))
         # print("\n%s" % (message.author))
         # print("\n%s" % (message.author.id))
 
@@ -47,5 +47,8 @@ class Message():
         elif "say" in content:
             say = content.replace(self.prefix + "say ", "")
             await message.channel.send(say)
+
+        elif "join" in content:
+            self.command.joinVoice(message)
 
         # elif "tes":
