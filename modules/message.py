@@ -13,7 +13,7 @@ class Message():
         self.Prefix = config["bot"]["prefix"]
         self.command = Commands()
 
-    async def checkMessage(self, message):
+    async def checkMessage(self, message, client):
         # print("content : %s" % (message.content))
         # print("clean content : %s" % (message.clean_content))
         # print("\n%s" % (message.author))
@@ -50,5 +50,8 @@ class Message():
 
         elif "join" in content:
             await self.command.joinVoice(message)
+
+        elif "disconnect" in content:
+            await self.command.disconnect(client)
 
         # elif "tes":

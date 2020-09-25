@@ -17,7 +17,7 @@ class Client(discord.Client):
         if message.author == client.user:
             return
 
-        await msg.checkMessage(message)
+        await msg.checkMessage(message, client)
 
 msg = Message()
 client = Client()
