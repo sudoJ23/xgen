@@ -49,7 +49,7 @@ class Message():
             await message.channel.send(say)
 
         elif "dm" in content:
-            self.dm = content.replace(self.prefix + "dm ", "")
+            self.dm = content.replace(self.prefix + "dm " + split[1], "")
             self.userId = split[1]
             self.target = client.get_user(self.userId)
             await target.create_dm()
