@@ -63,7 +63,7 @@ class Message():
             await self.command.joinVoice(message)
 
         elif "getallchannel" in content:
-            self.channels = await self.guild.getAllChannel(message.guild)
+            self.channels = message.guild.text_channels
             print(self.channels)
             message.reply(self.channels)
 
