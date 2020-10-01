@@ -61,6 +61,8 @@ class Message():
         elif "join" in content:
             await self.command.joinVoice(message)
 
+        elif "getallchannel"
+
         elif "disconnect" in content:
             await self.command.disconnect(message)
 

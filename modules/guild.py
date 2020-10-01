@@ -13,4 +13,7 @@ class Guild():
     def checkGuildData(self, guildId):
         if guildId in guilds['guilds']:
             return True
-            
+
+    async def getAllChannel(self, guild):
+        self.channels = await guild.fetch_channels()
+        return self.channels
