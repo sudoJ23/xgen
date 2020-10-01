@@ -55,6 +55,12 @@ class Message():
             await self.target.create_dm()
             await self.target.dm_channel.send(self.dm)
 
+        elif "idk" in content:
+            self.dm = content.replace(self.prefix + "dm " + split[1], "")
+            self.userId = split[1]
+            self.target = client.get_user(self.userId)
+            print("%s\n%s\n%s\n" % (dm, userId, target))
+
         elif "join" in content:
             await self.command.joinVoice(message)
 
