@@ -24,7 +24,7 @@ class Message():
 
         self.prefix = message.clean_content[0]
         split = message.clean_content.split(" ")
-        content = message.clean_content
+        content = message.clean_content.lower()
 
         if self.prefix != self.Prefix:
             return
@@ -33,7 +33,7 @@ class Message():
             if str(message.author.id) in config['bot']['adminId']:
                 self.command.restart()
         
-        elif "updateGit" in content:
+        elif "updategit" in content:
             if str(message.author.id) in config['bot']['adminId']:
                 await self.command.updateFromGit(message)
 
