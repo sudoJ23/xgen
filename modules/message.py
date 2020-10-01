@@ -61,7 +61,7 @@ class Message():
             # self.userId = split[1]
             # self.target = client.get_user(self.userId)
             self.target = message.mentions[0]
-            print("message : %s\nmentions : %s\nuserId : %s" % (self.dm, message.mentions[0], message.mentions[0].id))
+            print("%s\n\nmessage : %s\nmentions : %s\nuserId : %s\n" % (message.mentions, self.dm, message.mentions[0], message.mentions[0].id))
             await self.target.create_dm()
             await self.target.dm_channel.send(self.dm)
 
