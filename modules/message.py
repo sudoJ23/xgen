@@ -65,7 +65,11 @@ class Message():
         elif "getallchannel" in content:
             self.channels = message.guild.text_channels
             print(self.channels)
-            message.reply(self.channels)
+            message.channel.reply(self.channels)
+
+        elif "getcat" in content:
+            self.categories = message.guild.categories
+            print(self.categories)
 
         elif "disconnect" in content:
             await self.command.disconnect(message)
