@@ -51,7 +51,7 @@ class Message():
         elif "dm" in content:
             self.dm = content.replace(self.prefix + "dm ", "")
             await message.author.create_dm()
-            await message.dm_channel.send(self.dm)
+            await message.author.dm_channel.send(self.dm)
 
         elif "join" in content:
             await self.command.joinVoice(message)
