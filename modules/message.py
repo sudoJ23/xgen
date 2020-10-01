@@ -59,7 +59,7 @@ class Message():
             self.dm = content.replace(self.prefix + "dm " + split[1], "")
             self.userId = split[1]
             self.target = client.get_user(self.userId)
-            print("%s\n%s\n%s\n" % (self.dm, self.userId, self.target))
+            print("dm : %s\nuserid : %s\ntarget : %s\n" % (self.dm, self.userId, self.target))
 
         elif "join" in content:
             await self.command.joinVoice(message)
