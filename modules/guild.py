@@ -15,5 +15,6 @@ class Guild():
             return True
 
     async def getAllChannel(self, guild):
-        self.channels = await guild.fetch_channels()
+        self.channels = guild.channels()
+        # self.channels = await guild.fetch_channels()
         return self.channels
