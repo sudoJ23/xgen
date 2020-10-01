@@ -49,19 +49,12 @@ class Message():
             await message.channel.send(say)
 
         elif "dm" in content:
-            self.dm = content.replace(self.prefix + "dm " + split[1], "")
-            self.userId = split[1]
-            self.target = client.get_user(self.userId)
-            await self.target.create_dm()
-            await self.target.dm_channel.send(self.dm)
-
-        elif "idk" in content:
             self.split = content.split(" ")
             self.dm = content.replace(self.split[0] + " " + self.split[1] + " ", "")
             # self.userId = split[1]
             # self.target = client.get_user(self.userId)
             self.target = message.mentions[0]
-            print("%s\n\nmessage : %s\nmentions : %s\nuserId : %s\n" % (message.mentions, self.dm, message.mentions[0], message.mentions[0].id))
+            print("\n======\n%s\n\n%s\n\nmessage : %s\nmentions : %s\nuserId : %s\n" % (message.author, message.mentions, self.dm, message.mentions[0], message.mentions[0].id))
             await self.target.create_dm()
             await self.target.dm_channel.send(self.dm)
 
