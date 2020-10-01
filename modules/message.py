@@ -23,7 +23,7 @@ class Message():
             return
 
         self.prefix = message.clean_content[0]
-        self.split = message.clean_content.split(" ")
+        # self.split = message.clean_content.split(" ")
         content = message.clean_content.lower()
 
         if self.prefix != self.Prefix:
@@ -56,11 +56,14 @@ class Message():
             await self.target.dm_channel.send(self.dm)
 
         elif "idk" in content:
+            self.split = content.split(" ")
             self.dm = content.replace(self.split[0] + " " + self.split[1] + " ", "")
             # self.userId = split[1]
             # self.target = client.get_user(self.userId)
+            self.target = message.mentions[0]
             print("message : %s\nmentions : %s\nuserId : %s" % (self.dm, message.mentions[0], message.mentions[0].id))
-            # print("dm : %s\nuserid : %s\ntarget : %s\n" % (self.dm, self.userId, self.target))
+            await self.target.create_dm()
+            await self.target.dm_channel.send(self.dm)
 
         elif "join" in content:
             await self.command.joinVoice(message)
