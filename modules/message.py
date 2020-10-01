@@ -1,4 +1,5 @@
 from .commands import Commands
+from .guild import Guild
 import discord, json, codecs
 
 configOpen = codecs.open('config.json', 'r', 'utf-8')
@@ -61,7 +62,10 @@ class Message():
         elif "join" in content:
             await self.command.joinVoice(message)
 
-        elif "getallchannel"
+        elif "getallchannel" in content:
+            self.channels = await self.guild.getAllChannel(message.guild)
+            print(self.channels)
+            message.reply(self.channels)
 
         elif "disconnect" in content:
             await self.command.disconnect(message)
