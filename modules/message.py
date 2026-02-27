@@ -65,7 +65,7 @@ class Message():
         elif "getallchannel" in content:
             self.channels = message.guild.text_channels
             print(self.channels)
-            message.channel.reply(self.channels)
+            await message.reply(str(self.channels))
 
         elif "getcat" in content:
             self.categories = message.guild.categories

@@ -19,6 +19,10 @@ class Client(discord.Client):
 
         await msg.checkMessage(message, client)
 
+intents = discord.Intents.default()
+intents.message_content = True
+intents.messages = True
+
 msg = Message()
-client = Client()
+client = Client(intents=intents)
 client.run(config['bot']['token'])
