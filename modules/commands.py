@@ -334,6 +334,70 @@ class Commands():
 
         await message.channel.send(embed=embed)
 
+    async def dockerStatus(self, message):
+        """Tampilkan status semua Docker container."""
+        try:
+            # Ambil semua container (running + stopped)
+            raw = subprocess.check_output(
+                ['docker', 'ps', '-a', '--format',
+                 '{{.Names}}\t{{.Status}}\t{{.Image}}\t{{.Ports}}'],
+                stderr=subprocess.DEVNULL
+            ).decode('utf-8', errors='ignore').strip()
+
+            if not raw:
+                await message.reply("Tidak ada Docker container yang ditemukan.")
+                return
+
+            containers = [line.split('\t') for line in raw.splitlines()]
+            running = [c for c in containers if c[1].startswith('Up')]
+            stopped = [c for c in containers if not c[1].startswith('Up')]
+
+            embed = discord.Embed(title="Docker Containers", color=0x0db7ed)
+            embed.add_field(name="Total", value=str(len(containers)), inline=True)
+            embed.add_field(name="Running", value=str(len(running)), inline=True)
+            embed.add_field(name="Stopped", value=str(len(stopped)), inline=True)
+
+            if running:
+                lines = []
+                for c in running:
+                    name, status, image, ports = (c + [''] * 4)[:4]
+                    port_str = ports[:50] if ports else "-"
+                    lines.append(f"🟢 **{name}** `{image}`\n　{status} | `{port_str}`")
+                embed.add_field(name="Running Containers", value="\n".join(lines[:10]), inline=False)
+
+            if stopped:
+                lines = []
+                for c in stopped:
+                    name, status, image, ports = (c + [''] * 4)[:4]
+                    lines.append(f"🔴 **{name}** `{image}` — {status}")
+                embed.add_field(name="Stopped Containers", value="\n".join(lines[:10]), inline=False)
+
+            # Ambil resource usage container yang running
+            if running:
+                stats_raw = subprocess.check_output(
+                    ['docker', 'stats', '--no-stream', '--format',
+                     '{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}'],
+                    stderr=subprocess.DEVNULL
+                ).decode('utf-8', errors='ignore').strip()
+
+                if stats_raw:
+                    stat_lines = []
+                    for line in stats_raw.splitlines():
+                        parts = line.split('\t')
+                        if len(parts) >= 3:
+                            stat_lines.append(f"`{parts[0]}` — CPU: **{parts[1]}** | RAM: **{parts[2]}**")
+                    if stat_lines:
+                        embed.add_field(name="Resource Usage", value="\n".join(stat_lines[:10]), inline=False)
+
+            await message.channel.send(embed=embed)
+
+        except FileNotFoundError:
+            await message.reply("Docker tidak terinstall atau tidak ditemukan di PATH.")
+        except PermissionError:
+            await message.reply("Bot tidak memiliki izin untuk menjalankan Docker. Tambahkan user ke grup `docker`:\n```sudo usermod -aG docker namauser```")
+        except subprocess.CalledProcessError:
+            await message.reply("Gagal menjalankan perintah Docker. Pastikan Docker daemon berjalan:\n```sudo systemctl start docker```")
+
     # ── Voice / Music ──────────────────────────────────────────────
 
     async def joinVoice(self, message):

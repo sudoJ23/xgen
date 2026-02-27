@@ -66,7 +66,8 @@ class Message():
                 f"`{prefix}sysinfo` — CPU, RAM, disk, uptime mesin\n"
                 f"`{prefix}checkattack` — Deteksi brute-force / gagal login SSH\n"
                 f"`{prefix}fail2ban` — Status jail & IP yang di-ban fail2ban\n"
-                f"`{prefix}connections` — Koneksi jaringan aktif & yang mencurigakan"
+                f"`{prefix}connections` — Koneksi jaringan aktif & yang mencurigakan\n"
+                f"`{prefix}docker` — Status semua Docker container & resource usage"
             ), inline=False)
             embed.add_field(name="Musik", value=(
                 f"`{prefix}join` — Bot masuk voice channel kamu\n"
@@ -158,6 +159,12 @@ class Message():
         elif "connections" in content:
             if str(message.author.id) in config['bot']['adminId']:
                 await self.command.activeConnections(message)
+            else:
+                await message.reply("Kamu tidak memiliki izin untuk command ini.")
+
+        elif "docker" in content:
+            if str(message.author.id) in config['bot']['adminId']:
+                await self.command.dockerStatus(message)
             else:
                 await message.reply("Kamu tidak memiliki izin untuk command ini.")
 
