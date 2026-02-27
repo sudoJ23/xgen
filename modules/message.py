@@ -63,7 +63,10 @@ class Message():
                 f"`{prefix}getcat` — List semua kategori"
             ), inline=False)
             embed.add_field(name="Sistem (VPS)", value=(
-                f"`{prefix}sysinfo` — CPU, RAM, disk, uptime mesin"
+                f"`{prefix}sysinfo` — CPU, RAM, disk, uptime mesin\n"
+                f"`{prefix}checkattack` — Deteksi brute-force / gagal login SSH\n"
+                f"`{prefix}fail2ban` — Status jail & IP yang di-ban fail2ban\n"
+                f"`{prefix}connections` — Koneksi jaringan aktif & yang mencurigakan"
             ), inline=False)
             embed.add_field(name="Musik", value=(
                 f"`{prefix}join` — Bot masuk voice channel kamu\n"
@@ -137,6 +140,24 @@ class Message():
         elif "sysinfo" in content:
             if str(message.author.id) in config['bot']['adminId']:
                 await self.command.sysInfo(message)
+            else:
+                await message.reply("Kamu tidak memiliki izin untuk command ini.")
+
+        elif "checkattack" in content:
+            if str(message.author.id) in config['bot']['adminId']:
+                await self.command.checkAttack(message)
+            else:
+                await message.reply("Kamu tidak memiliki izin untuk command ini.")
+
+        elif "fail2ban" in content:
+            if str(message.author.id) in config['bot']['adminId']:
+                await self.command.fail2banStatus(message)
+            else:
+                await message.reply("Kamu tidak memiliki izin untuk command ini.")
+
+        elif "connections" in content:
+            if str(message.author.id) in config['bot']['adminId']:
+                await self.command.activeConnections(message)
             else:
                 await message.reply("Kamu tidak memiliki izin untuk command ini.")
 

@@ -1,4 +1,5 @@
-import discord, json, codecs, os, sys, subprocess, datetime
+import discord, json, codecs, os, sys, subprocess, datetime, re
+from collections import Counter
 import yt_dlp
 import psutil
 
@@ -209,6 +210,128 @@ class Commands():
     async def ping(self, message, client):
         latency = round(client.latency * 1000)
         embed = discord.Embed(description=f"Pong! Latency: **{latency}ms**", color=0x57F287)
+        await message.channel.send(embed=embed)
+
+    # ── Security Monitoring ────────────────────────────────────────
+
+    async def checkAttack(self, message):
+        """Parse auth.log untuk mendeteksi brute-force / failed SSH login."""
+        log_paths = ['/var/log/auth.log', '/var/log/secure']
+        log_file = next((p for p in log_paths if os.path.exists(p)), None)
+
+        if not log_file:
+            await message.reply("File log auth tidak ditemukan (`/var/log/auth.log` atau `/var/log/secure`).")
+            return
+
+        try:
+            result = subprocess.check_output(
+                ['tail', '-n', '5000', log_file],
+                stderr=subprocess.DEVNULL
+            ).decode('utf-8', errors='ignore')
+        except PermissionError:
+            await message.reply("Bot tidak memiliki izin untuk membaca log. Jalankan bot sebagai root atau tambahkan ke grup `adm`.")
+            return
+
+        # Ambil IP dari baris "Failed password" dan "Invalid user"
+        failed_ips = re.findall(r'Failed password.*?from\s+(\d+\.\d+\.\d+\.\d+)', result)
+        invalid_ips = re.findall(r'Invalid user.*?from\s+(\d+\.\d+\.\d+\.\d+)', result)
+        all_ips = failed_ips + invalid_ips
+        total_attempts = len(all_ips)
+
+        embed = discord.Embed(title="Deteksi Serangan SSH (5000 baris terakhir)", color=0xED4245)
+        embed.add_field(name="Total Percobaan Gagal", value=str(total_attempts), inline=True)
+        embed.add_field(name="IP Unik", value=str(len(set(all_ips))), inline=True)
+
+        if all_ips:
+            top_attackers = Counter(all_ips).most_common(10)
+            lines = "\n".join([f"`{ip}` — **{count}x**" for ip, count in top_attackers])
+            embed.add_field(name="Top 10 IP Penyerang", value=lines, inline=False)
+        else:
+            embed.add_field(name="Status", value="Tidak ditemukan percobaan login gagal.", inline=False)
+
+        embed.set_footer(text=f"Sumber: {log_file}")
+        await message.channel.send(embed=embed)
+
+    async def fail2banStatus(self, message):
+        """Tampilkan status fail2ban: jail aktif dan IP yang sedang di-ban."""
+        try:
+            # Cek semua jail yang aktif
+            jails_raw = subprocess.check_output(
+                ['fail2ban-client', 'status'],
+                stderr=subprocess.DEVNULL
+            ).decode('utf-8', errors='ignore')
+
+            jail_names = re.findall(r'Jail list:\s+(.+)', jails_raw)
+            if not jail_names:
+                await message.reply("Fail2ban aktif tapi tidak ada jail yang ditemukan.")
+                return
+
+            jails = [j.strip() for j in jail_names[0].split(',')]
+            embed = discord.Embed(title="Status Fail2ban", color=0xFEE75C)
+
+            total_banned = 0
+            for jail in jails:
+                try:
+                    detail = subprocess.check_output(
+                        ['fail2ban-client', 'status', jail],
+                        stderr=subprocess.DEVNULL
+                    ).decode('utf-8', errors='ignore')
+
+                    banned_count = re.search(r'Currently banned:\s+(\d+)', detail)
+                    total_fail = re.search(r'Total failed:\s+(\d+)', detail)
+                    banned_ips_raw = re.search(r'Banned IP list:\s+(.+)', detail)
+
+                    count = int(banned_count.group(1)) if banned_count else 0
+                    total_banned += count
+                    fails = total_fail.group(1) if total_fail else "0"
+                    banned_ips = banned_ips_raw.group(1).strip() if banned_ips_raw and banned_ips_raw.group(1).strip() else "Tidak ada"
+
+                    value = f"Banned: **{count}** | Total gagal: **{fails}**\n`{banned_ips[:200]}`"
+                    embed.add_field(name=f"Jail: {jail}", value=value, inline=False)
+                except Exception:
+                    embed.add_field(name=f"Jail: {jail}", value="Gagal membaca detail.", inline=False)
+
+            embed.set_footer(text=f"Total IP ter-ban saat ini: {total_banned}")
+            await message.channel.send(embed=embed)
+
+        except FileNotFoundError:
+            await message.reply("Fail2ban tidak terinstall atau tidak ditemukan di PATH.")
+        except PermissionError:
+            await message.reply("Bot tidak memiliki izin untuk menjalankan `fail2ban-client`.")
+        except subprocess.CalledProcessError:
+            await message.reply("Fail2ban tidak berjalan. Jalankan `sudo systemctl start fail2ban`.")
+
+    async def activeConnections(self, message):
+        """Tampilkan koneksi jaringan aktif, highlight port yang tidak umum."""
+        COMMON_PORTS = {22, 80, 443, 3306, 5432, 6379, 27017, 8080, 8443}
+
+        conns = psutil.net_connections(kind='inet')
+        established = [c for c in conns if c.status == 'ESTABLISHED' and c.raddr]
+
+        # Kelompokkan berdasarkan IP remote
+        ip_counter = Counter(c.raddr.ip for c in established)
+        suspicious = [
+            c for c in established
+            if c.laddr.port not in COMMON_PORTS and c.raddr.port not in COMMON_PORTS
+        ]
+
+        embed = discord.Embed(title="Koneksi Jaringan Aktif", color=0x5865F2)
+        embed.add_field(name="Total Koneksi ESTABLISHED", value=str(len(established)), inline=True)
+        embed.add_field(name="IP Remote Unik", value=str(len(ip_counter)), inline=True)
+        embed.add_field(name="Koneksi Port Tidak Umum", value=str(len(suspicious)), inline=True)
+
+        if suspicious:
+            lines = []
+            for c in suspicious[:10]:
+                pid_info = f"PID {c.pid}" if c.pid else "PID ?"
+                lines.append(f"`{c.laddr.ip}:{c.laddr.port}` → `{c.raddr.ip}:{c.raddr.port}` ({pid_info})")
+            embed.add_field(name="Koneksi Mencurigakan (maks 10)", value="\n".join(lines), inline=False)
+
+        if ip_counter:
+            top_ips = ip_counter.most_common(5)
+            lines = [f"`{ip}` — {count} koneksi" for ip, count in top_ips]
+            embed.add_field(name="Top 5 IP Remote", value="\n".join(lines), inline=False)
+
         await message.channel.send(embed=embed)
 
     # ── Voice / Music ──────────────────────────────────────────────
