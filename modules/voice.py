@@ -1,28 +1,8 @@
-# import discord, youtube_dl, asyncio
-
-# ytdl_format_options = {
-#     'format': 'bestaudio/best',
-#     'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
-#     'restrictfilenames': True,
-#     'noplaylist': True,
-#     'nocheckcertificate': True,
-#     'ignoreerrors': False,
-#     'logtostderr': False,
-#     'quiet': True,
-#     'no_warnings': True,
-#     'default_search': 'auto',
-#     'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
-# }
-
-# ffmpeg_options = {
-#     'options': '-vn'
-# }
-
-# ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
-
-# class YTDLSource():
-
-# class Voice():
-
-#     def __init__(self):
-#         ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+# Fitur voice dan musik diimplementasikan di commands.py
+# menggunakan yt-dlp sebagai pengganti youtube_dl yang sudah deprecated.
+#
+# Command yang tersedia:
+#   >join    - Bot masuk ke voice channel
+#   >play    - Putar musik dari YouTube (URL atau judul)
+#   >stop    - Hentikan musik
+#   >disconnect - Bot keluar dari voice channel
