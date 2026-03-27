@@ -11,10 +11,10 @@ class Guild():
         self.guilds = json.load(self.guildsOpen)
 
     def checkGuildData(self, guildId):
-        if guildId in guilds['guilds']:
+        if str(guildId) in self.guilds['guilds']:
             return True
+        return False
 
     async def getAllChannel(self, guild):
-        self.channels = guild.channels()
-        # self.channels = await guild.fetch_channels()
+        self.channels = guild.channels
         return self.channels
